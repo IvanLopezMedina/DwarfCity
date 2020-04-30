@@ -77,7 +77,7 @@ const Header = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" color="transparent">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             Brastlewark
