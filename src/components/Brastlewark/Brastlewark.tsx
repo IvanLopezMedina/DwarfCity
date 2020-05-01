@@ -13,21 +13,18 @@ const Brastlewark = ({dwarves, loadDwarves, loading}) => {
     }
   });
 
-  const handle = () => {
-    debugger;
+  const dwarvesList = () => {
+    if (dwarves && dwarves.Brastlewark && dwarves.Brastlewark.length > 0) {
+      return dwarves.Brastlewark.map((dwarf) => <p>{dwarf.name}</p>);
+    }
   };
+
   return (
     <>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <>
-          <Header />
-          <div>Brastlewark city main page!</div>
-          <button onClick={handle}>dwarrfff</button>
-          {JSON.stringify(dwarves)}
-        </>
-      )}
+      <Header />
+      <div>Brastlewark city main page!</div>
+      {loading && <Spinner />}
+      {dwarvesList()}
     </>
   );
 };
