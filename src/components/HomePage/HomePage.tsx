@@ -1,11 +1,16 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import './HomePage.scss';
 
 const HomePage = () => {
   return (
     <>
-      <h1>This is a homepage</h1>
-      <Link to="/Brastlewark">Go to Brastlewark</Link>
+      <div className="homepage">
+        <h1>BRASTLEWARK</h1>
+        <Link className="link-to-brastlewark" to="/Brastlewark">
+          Enter the city
+        </Link>
+      </div>
     </>
   );
 };
