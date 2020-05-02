@@ -6,20 +6,36 @@ import Spinner from '../../common/Spinner';
 import DwarfItem from '../DwarfItem/DwarfItem';
 import './DwarfList.scss';
 
-const DwarfList = ({dwarves, loadDwarves, loading}) => {
+const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
   const [page, setPage] = useState(10);
   const [loadedDwarves, setLoadedDwarves] = useState([]);
 
+  const resetLoadedDwarves = () => {
+    // If dwarves reloads reset pagination and loaded dwarves
+    setPage(10);
+    setLoadedDwarves(dwarves.slice(0, page - 1));
+  };
+
+  const filterDwarvesByName = () => {
+    return dwarves.filter((dwarf: any) => dwarf.name.includes(searchedDwarfName));
+  };
+
   useEffect(() => {
+    resetLoadedDwarves();
     if (dwarves.length === 0) {
       loadDwarves().catch((error) => {
         alert('Loading dwarves failed' + error);
       });
     }
-    // If dwarves reloads reset pagination and loaded dwarves
-    setPage(10);
-    setLoadedDwarves(dwarves.slice(0, page - 1));
   }, [dwarves]);
+
+  useEffect(() => {
+    setLoadedDwarves(filterDwarvesByName);
+
+    if (searchedDwarfName.length === 0) {
+      resetLoadedDwarves();
+    }
+  }, [searchedDwarfName]);
 
   const appendDwarves = () => {
     const PAGINATION = 10;
@@ -55,8 +71,10 @@ const DwarfList = ({dwarves, loadDwarves, loading}) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     dwarves: state.dwarves,
+    searchedDwarfName: state.searchedDwarfName,
     loading: state.apiCallsInProgress > 0,
   };
 };
