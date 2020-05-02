@@ -30,7 +30,7 @@ const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
   }, [dwarves]);
 
   useEffect(() => {
-    setdisplayedDwarfs(filterDwarvesByName(displayedDwarfs));
+    setdisplayedDwarfs(filterDwarvesByName(dwarves));
 
     if (searchedDwarfName.length === 0) {
       resetdisplayedDwarfs();
