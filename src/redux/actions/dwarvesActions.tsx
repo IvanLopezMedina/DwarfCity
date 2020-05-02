@@ -6,8 +6,8 @@ export function loadDwarvesSuccess(dwarves) {
   return {type: types.LOAD_DWARVES_SUCCESS, dwarves};
 }
 
-export function searchDwarvesByNameSuccess(name) {
-  return {type: types.SEARCH_DWARVES_BY_NAME_SUCCESS, name};
+export function searchDwarvesByName(name) {
+  return {type: types.SEARCH_DWARVES_BY_NAME, name};
 }
 
 export function loadDwarves() {
@@ -25,8 +25,8 @@ export function loadDwarves() {
   };
 }
 
-export function searchDwarvesByName(name) {
+export function searchByName(name) {
   return function (dispatch) {
-    dispatch(searchDwarvesByNameSuccess(name));
+    dispatch(searchDwarvesByName(name));
   };
 }
