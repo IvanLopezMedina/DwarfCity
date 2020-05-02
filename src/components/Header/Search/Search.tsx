@@ -55,13 +55,31 @@ const Search = ({searchDwarvesByName}) => {
     searchDwarvesByName(name);
   }, [name]);
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') setName(e.target.value);
+  };
+
+  const handleOnChange = (e) => {
+    const name = e.target.value;
+    if (name.length === 0) setName(name);
+  };
+
+  const resetSearch = () => {
+    setName('');
+    const searchInputEl = document.getElementById('inputSearch') as HTMLInputElement;
+    searchInputEl.value = '';
+  };
+
   return (
     <div className={classes.search}>
       <div className={classes.searchIcon}>
         <SearchIcon />
       </div>
+
       <InputBase
-        onChange={(e) => setName(e.target.value)}
+        id="inputSearch"
+        onKeyDown={handleKeyDown}
+        onChange={handleOnChange}
         placeholder="Search by name…"
         classes={{
           root: classes.inputRoot,
@@ -69,6 +87,7 @@ const Search = ({searchDwarvesByName}) => {
         }}
         inputProps={{'aria-label': 'search'}}
       />
+      {name.length > 0 && <button onClick={resetSearch}> Reset search</button>}
     </div>
   );
 };
