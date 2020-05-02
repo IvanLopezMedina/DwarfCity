@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {loadDwarves, searchDwarvesByName} from '../../../redux/actions/dwarvesActions';
 import {fade, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
@@ -44,8 +46,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Search = () => {
+const Search = ({searchDwarvesByName}) => {
   const classes = useStyles();
+
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    searchDwarvesByName(name);
+  }, [name]);
 
   return (
     <div className={classes.search}>
@@ -53,6 +61,7 @@ const Search = () => {
         <SearchIcon />
       </div>
       <InputBase
+        onChange={(e) => setName(e.target.value)}
         placeholder="Search by name…"
         classes={{
           root: classes.inputRoot,
@@ -64,4 +73,9 @@ const Search = () => {
   );
 };
 
-export default Search;
+const mapDispatchToProps = {
+  searchDwarvesByName,
+  loadDwarves,
+};
+
+export default connect(null, mapDispatchToProps)(Search);

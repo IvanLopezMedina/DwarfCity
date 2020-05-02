@@ -7,7 +7,7 @@ import DwarfItem from '../DwarfItem/DwarfItem';
 import './DwarfList.scss';
 
 const DwarfList = ({dwarves, loadDwarves, loading}) => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(10);
   const [loadedDwarves, setLoadedDwarves] = useState([]);
 
   useEffect(() => {
@@ -16,7 +16,9 @@ const DwarfList = ({dwarves, loadDwarves, loading}) => {
         alert('Loading dwarves failed' + error);
       });
     }
-    if (dwarves && dwarves.length > 0) appendDwarves();
+    // If dwarves reloads reset pagination and loaded dwarves
+    setPage(10);
+    setLoadedDwarves(dwarves.slice(0, page - 1));
   }, [dwarves]);
 
   const appendDwarves = () => {

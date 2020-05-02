@@ -6,6 +6,10 @@ export function loadDwarvesSuccess(dwarves) {
   return {type: types.LOAD_DWARVES_SUCCESS, dwarves};
 }
 
+export function searchDwarvesByNameSuccess(name) {
+  return {type: types.SEARCH_DWARVES_BY_NAME_SUCCESS, name};
+}
+
 export function loadDwarves() {
   return function (dispatch) {
     dispatch(beginApiCall());
@@ -18,5 +22,11 @@ export function loadDwarves() {
         dispatch(apiCallError());
         throw error;
       });
+  };
+}
+
+export function searchDwarvesByName(name) {
+  return function (dispatch) {
+    dispatch(searchDwarvesByNameSuccess(name));
   };
 }
