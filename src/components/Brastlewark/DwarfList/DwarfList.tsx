@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
+import {loadDwarves} from '../../../redux/actions/dwarvesActions';
 import InfiniteScroll from 'react-infinite-scroller';
 import Spinner from '../../common/Spinner';
 import DwarfItem from '../DwarfItem/DwarfItem';
-import {loadDwarves} from '../../../redux/actions/dwarvesActions';
 import './DwarfList.scss';
 
 const DwarfList = ({dwarves, loadDwarves, loading}) => {
@@ -16,12 +16,12 @@ const DwarfList = ({dwarves, loadDwarves, loading}) => {
         alert('Loading dwarves failed' + error);
       });
     }
-    if (dwarves && dwarves.Brastlewark) appendDwarves();
+    if (dwarves && dwarves.length > 0) appendDwarves();
   }, [dwarves]);
 
   const appendDwarves = () => {
     const PAGINATION = 10;
-    const dwarvesSliced = dwarves.Brastlewark.slice(page, page + PAGINATION);
+    const dwarvesSliced = dwarves.slice(page, page + PAGINATION);
     const newDwarvesArray: any = [...loadedDwarves, ...dwarvesSliced];
 
     setLoadedDwarves(newDwarvesArray);
@@ -29,12 +29,12 @@ const DwarfList = ({dwarves, loadDwarves, loading}) => {
   };
 
   const dwarfList = () => {
-    if (loadedDwarves && dwarves.Brastlewark && loadedDwarves.length > 0) {
+    if (loadedDwarves && loadedDwarves.length > 0) {
       return (
         <InfiniteScroll
           className="dwarf-list"
           loadMore={appendDwarves}
-          hasMore={dwarves.Brastlewark.length > loadedDwarves.length}
+          hasMore={dwarves.length > loadedDwarves.length}
         >
           {loadedDwarves.map((dwarf) => (
             <DwarfItem key={dwarf['id']} dwarf={dwarf} />
