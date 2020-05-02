@@ -31,7 +31,7 @@ const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
 
   useEffect(() => {
     setdisplayedDwarfs(filterDwarvesByName(dwarves));
-
+    console.log('reset');
     if (searchedDwarfName.length === 0) {
       resetdisplayedDwarfs();
     }
@@ -42,7 +42,7 @@ const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
     const dwarvesSliced = dwarves.slice(page, page + PAGINATION);
     const newDwarvesArray: any = [...displayedDwarfs, ...dwarvesSliced];
 
-    setdisplayedDwarfs(filterDwarvesByName(newDwarvesArray));
+    setdisplayedDwarfs(newDwarvesArray);
     setPage(page + PAGINATION);
   };
 
@@ -52,7 +52,7 @@ const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
         <InfiniteScroll
           className="dwarf-list"
           loadMore={appendDwarves}
-          hasMore={dwarves.length > displayedDwarfs.length}
+          hasMore={dwarves.length > displayedDwarfs.length && searchedDwarfName.length === 0}
         >
           {displayedDwarfs.map((dwarf) => (
             <DwarfItem key={dwarf['id']} dwarf={dwarf} />
