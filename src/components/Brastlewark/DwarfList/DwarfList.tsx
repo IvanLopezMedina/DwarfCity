@@ -8,20 +8,20 @@ import './DwarfList.scss';
 
 const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
   const [page, setPage] = useState(10);
-  const [loadedDwarves, setLoadedDwarves] = useState([]);
+  const [displayedDwarfs, setdisplayedDwarfs] = useState([]);
 
-  const resetLoadedDwarves = () => {
+  const resetdisplayedDwarfs = () => {
     // If dwarves reloads reset pagination and loaded dwarves
     setPage(10);
-    setLoadedDwarves(dwarves.slice(0, page - 1));
+    setdisplayedDwarfs(dwarves.slice(0, page - 1));
   };
 
-  const filterDwarvesByName = () => {
-    return dwarves.filter((dwarf: any) => dwarf.name.includes(searchedDwarfName));
+  const filterDwarvesByName = (dwarvesArray: any) => {
+    return dwarvesArray.filter((dwarf: any) => dwarf.name.includes(searchedDwarfName));
   };
 
   useEffect(() => {
-    resetLoadedDwarves();
+    resetdisplayedDwarfs();
     if (dwarves.length === 0) {
       loadDwarves().catch((error) => {
         alert('Loading dwarves failed' + error);
@@ -30,31 +30,31 @@ const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
   }, [dwarves]);
 
   useEffect(() => {
-    setLoadedDwarves(filterDwarvesByName);
+    setdisplayedDwarfs(filterDwarvesByName(displayedDwarfs));
 
     if (searchedDwarfName.length === 0) {
-      resetLoadedDwarves();
+      resetdisplayedDwarfs();
     }
   }, [searchedDwarfName]);
 
   const appendDwarves = () => {
     const PAGINATION = 10;
     const dwarvesSliced = dwarves.slice(page, page + PAGINATION);
-    const newDwarvesArray: any = [...loadedDwarves, ...dwarvesSliced];
+    const newDwarvesArray: any = [...displayedDwarfs, ...dwarvesSliced];
 
-    setLoadedDwarves(newDwarvesArray);
+    setdisplayedDwarfs(filterDwarvesByName(newDwarvesArray));
     setPage(page + PAGINATION);
   };
 
   const dwarfList = () => {
-    if (loadedDwarves && loadedDwarves.length > 0) {
+    if (displayedDwarfs && displayedDwarfs.length > 0) {
       return (
         <InfiniteScroll
           className="dwarf-list"
           loadMore={appendDwarves}
-          hasMore={dwarves.length > loadedDwarves.length}
+          hasMore={dwarves.length > displayedDwarfs.length}
         >
-          {loadedDwarves.map((dwarf) => (
+          {displayedDwarfs.map((dwarf) => (
             <DwarfItem key={dwarf['id']} dwarf={dwarf} />
           ))}
         </InfiniteScroll>
