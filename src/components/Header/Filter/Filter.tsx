@@ -5,9 +5,10 @@ import FilterList from '@material-ui/icons/FilterList';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import Typography from '@material-ui/core/Typography';
+import Button from '../../common/Button';
+import Select from '../../common/Select';
+import Slider from '../../common/Slider';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,14 +25,14 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     list: {
-      width: 350,
+      width: 250,
     },
   }),
 );
 
 const Filter = () => {
   const classes = useStyles();
-  const [toggleFilter, setToggleFilter] = useState(false);
+  const [toggleFilter, setToggleFilter] = useState(true);
 
   const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
     setToggleFilter(open);
@@ -40,10 +41,28 @@ const Filter = () => {
   const list = () => (
     <>
       <div className={classes.list} role="presentation" onClick={toggleDrawer(false)}></div>
+
       <List>
-        <ListItem button key={'text'}>
-          <ListItemIcon>{<InboxIcon />}</ListItemIcon>
-          <ListItemText primary={'text'} />
+        <Typography variant="h5" align="center">
+          Filter dwarves
+        </Typography>
+        <ListItem>
+          <Slider label={'Age'} range={[0, 400]} />
+        </ListItem>
+        <ListItem>
+          <Slider label={'Height'} range={[0, 400]} />
+        </ListItem>
+        <ListItem>
+          <Slider label={'Weight'} range={[0, 400]} />
+        </ListItem>
+        <ListItem>
+          <Select label={'Hair color'} />
+        </ListItem>
+        <ListItem>
+          <Select label={'Profession'} />
+        </ListItem>
+        <ListItem>
+          <Button text={'Filter'} />
         </ListItem>
       </List>
     </>
