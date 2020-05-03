@@ -38,14 +38,15 @@ const Filter = () => {
   };
 
   const list = () => (
-    <div className={classes.list} role="presentation" onClick={toggleDrawer(false)}>
+    <>
+      <div className={classes.list} role="presentation" onClick={toggleDrawer(false)}></div>
       <List>
         <ListItem button key={'text'}>
           <ListItemIcon>{<InboxIcon />}</ListItemIcon>
           <ListItemText primary={'text'} />
         </ListItem>
       </List>
-    </div>
+    </>
   );
 
   return (
