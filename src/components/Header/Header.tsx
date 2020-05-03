@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Search from './Search/Search';
-import FilterList from '@material-ui/icons/FilterList';
+import Filter from './Filter/Filter';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,15 +47,9 @@ const Header = () => {
             Brastlewark
           </Typography>
           <div className={classes.grow} />
-
           <Search />
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <FilterList />
-          </div>
-          <div className={classes.sectionMobile}>
-            <FilterList />
-          </div>
+          <Filter />
         </Toolbar>
       </AppBar>
     </div>
