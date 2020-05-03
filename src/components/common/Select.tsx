@@ -4,7 +4,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function ControlledOpenSelect({label = ''}) {
+export default function ControlledOpenSelect({label = '', selectData}) {
   const classes = useStyles();
   const [age, setAge] = React.useState<string | number>('');
   const [open, setOpen] = React.useState(false);
@@ -49,12 +48,11 @@ export default function ControlledOpenSelect({label = ''}) {
           value={age}
           onChange={handleChange}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {selectData.map((data) => (
+            <MenuItem key={data} value={data}>
+              {data}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>
