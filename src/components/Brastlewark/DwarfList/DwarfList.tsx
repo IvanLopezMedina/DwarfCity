@@ -27,14 +27,15 @@ const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
         alert('Loading dwarves failed' + error);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dwarves]);
 
   useEffect(() => {
     setdisplayedDwarfs(filterDwarvesByName(dwarves));
-    console.log('reset');
     if (searchedDwarfName.length === 0) {
       resetdisplayedDwarfs();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchedDwarfName]);
 
   const appendDwarves = () => {
@@ -71,7 +72,6 @@ const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     dwarves: state.dwarves,
     searchedDwarfName: state.searchedDwarfName,

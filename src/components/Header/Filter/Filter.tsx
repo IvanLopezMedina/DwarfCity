@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import FilterList from '@material-ui/icons/FilterList';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,23 +23,47 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
+    list: {
+      width: 350,
+    },
   }),
 );
 
 const Filter = () => {
   const classes = useStyles();
+  const [toggleFilter, setToggleFilter] = useState(false);
+
+  const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
+    setToggleFilter(open);
+  };
+
+  const list = () => (
+    <div className={classes.list} role="presentation" onClick={toggleDrawer(false)}>
+      <List>
+        <ListItem button key={'text'}>
+          <ListItemIcon>{<InboxIcon />}</ListItemIcon>
+          <ListItemText primary={'text'} />
+        </ListItem>
+      </List>
+    </div>
+  );
 
   return (
     <>
       <div className={classes.sectionDesktop}>
-        <IconButton color="inherit">
+        <IconButton onClick={toggleDrawer(true)} color="inherit">
           <FilterList />
         </IconButton>
       </div>
       <div className={classes.sectionMobile}>
-        <IconButton color="inherit">
+        <IconButton onClick={toggleDrawer(true)} color="inherit">
           <FilterList />
         </IconButton>
+        {toggleFilter && (
+          <Drawer anchor={'right'} open={toggleFilter} onClose={toggleDrawer(false)}>
+            {list()}
+          </Drawer>
+        )}
       </div>
     </>
   );

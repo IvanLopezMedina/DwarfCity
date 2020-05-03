@@ -53,6 +53,7 @@ const Search = ({searchDwarvesByName}) => {
 
   useEffect(() => {
     searchDwarvesByName(name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
 
   const handleKeyDown = (e) => {
@@ -87,7 +88,7 @@ const Search = ({searchDwarvesByName}) => {
         }}
         inputProps={{'aria-label': 'search'}}
       />
-      {name.length > 0 && <button onClick={resetSearch}> Reset search</button>}
+      {name.length > 0 && <button onClick={resetSearch}>Reset search</button>}
     </div>
   );
 };
