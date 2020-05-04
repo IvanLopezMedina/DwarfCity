@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {loadDwarves, searchDwarvesByName} from '../../../redux/actions/dwarvesActions';
+import {
+  loadDwarves,
+  searchDwarvesByName,
+} from '../../../redux/actions/dwarvesActions';
 import {fade, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
@@ -46,28 +49,32 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Search = ({searchDwarvesByName}) => {
+type SearchProps = {searchDwarvesByName: (name: string) => React.ReactNode};
+
+const Search: React.FC<SearchProps> = ({searchDwarvesByName}) => {
   const classes = useStyles();
 
-  const [name, setName] = useState('');
+  const [name, setName] = useState<string>('');
 
   useEffect(() => {
     searchDwarvesByName(name);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') setName(e.target.value);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') setName(e.currentTarget.value);
   };
 
-  const handleOnChange = (e) => {
-    const name = e.target.value;
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.currentTarget.value;
     if (name.length === 0) setName(name);
   };
 
   const resetSearch = () => {
     setName('');
-    const searchInputEl = document.getElementById('inputSearch') as HTMLInputElement;
+    const searchInputEl = document.getElementById(
+      'inputSearch',
+    ) as HTMLInputElement;
     searchInputEl.value = '';
   };
 
