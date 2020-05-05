@@ -31,26 +31,57 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Filter = ({maxAge, maxWeight, maxHeight, hairColor, professions}) => {
-  const classes = useStyles();
-  const [toggleFilter, setToggleFilter] = useState(false);
+type FilterParameters = {
+  age: {minAge: number; maxAge: number};
+  height: {minHeight: number; maxHeight: number};
+  weight: {minWeight: number; maxWeight: number};
+  hairColor: Set<string>;
+  professions: Set<string>;
+};
 
-  const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
+type FilterProps = {
+  filterParameters: FilterParameters;
+};
+
+const Filter: React.FC<FilterProps> = ({filterParameters}) => {
+  const classes = useStyles();
+  const [toggleFilter, setToggleFilter] = useState<boolean>(false);
+
+  const toggleDrawer = (open: boolean) => () => {
     setToggleFilter(open);
   };
 
   const filterItems = [
-    <Slider label={'Age'} range={[0, maxAge]} />,
-    <Slider label={'Height'} range={[0, maxHeight]} />,
-    <Slider label={'Weight'} range={[0, maxWeight]} />,
-    <Select label={'Hair color'} selectData={hairColor} />,
-    <Select label={'Profession'} selectData={professions} />,
+    <Slider
+      label={'Age'}
+      range={[filterParameters.age.minAge, filterParameters.age.maxAge]}
+    />,
+    <Slider
+      label={'Height'}
+      range={[
+        filterParameters.height.minHeight,
+        filterParameters.height.maxHeight,
+      ]}
+    />,
+    <Slider
+      label={'Weight'}
+      range={[
+        filterParameters.weight.minWeight,
+        filterParameters.weight.maxWeight,
+      ]}
+    />,
+    <Select label={'Hair color'} selectData={filterParameters.hairColor} />,
+    <Select label={'Profession'} selectData={filterParameters.professions} />,
     <Button text={'Filter'} />,
   ];
 
-  const list = () => (
+  const list: () => JSX.Element = () => (
     <>
-      <div className={classes.list} role="presentation" onClick={toggleDrawer(false)}></div>
+      <div
+        className={classes.list}
+        role="presentation"
+        onClick={toggleDrawer(false)}
+      ></div>
 
       <List>
         <Typography variant="h5" align="center">
@@ -75,7 +106,11 @@ const Filter = ({maxAge, maxWeight, maxHeight, hairColor, professions}) => {
           <FilterList />
         </IconButton>
         {toggleFilter && (
-          <Drawer anchor={'right'} open={toggleFilter} onClose={toggleDrawer(false)}>
+          <Drawer
+            anchor={'right'}
+            open={toggleFilter}
+            onClose={toggleDrawer(false)}
+          >
             {list()}
           </Drawer>
         )}
@@ -84,40 +119,72 @@ const Filter = ({maxAge, maxWeight, maxHeight, hairColor, professions}) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  let maxAge = 0;
-  let maxHeight = 0;
-  let maxWeight = 0;
-  let hairColor: any = new Set();
-  let professions: any = new Set();
+type Dwarf = {
+  age: number;
+  height: number;
+  weight: number;
+  hair_color: string;
+  professions: string[];
+};
 
-  state.dwarves.map((dwarf) => {
-    if (dwarf.age > maxAge) maxAge = dwarf.age;
-    if (dwarf.height > maxHeight) maxHeight = dwarf.height;
-    if (dwarf.weight > maxWeight) maxWeight = dwarf.weight;
+type StateProps = {
+  dwarves: Dwarf[];
+  apiCallsInProgress: number;
+  searchedDwarfName: string;
+};
 
-    hairColor.add(dwarf.hair_color);
+const getMinAndMax: (
+  currentMin: number,
+  currentMax: number,
+  value: number,
+) => [number, number] = (currentMin, currentMax, value) => {
+  if (value > currentMax) currentMax = value;
+  if (value < currentMin) currentMin = value;
+
+  return [currentMin, currentMax];
+};
+
+const mapStateToProps = (state: StateProps) => {
+  const DEFAULT_MIN: number = 999;
+  const DEFAULT_MAX: number = 0;
+
+  var filterParameters: FilterParameters = {
+    age: {minAge: DEFAULT_MIN, maxAge: DEFAULT_MAX},
+    height: {minHeight: DEFAULT_MIN, maxHeight: DEFAULT_MAX},
+    weight: {minWeight: DEFAULT_MIN, maxWeight: DEFAULT_MAX},
+    hairColor: new Set(),
+    professions: new Set(),
+  };
+
+  let age = filterParameters.age;
+  let weight = filterParameters.weight;
+  let height = filterParameters.height;
+
+  state.dwarves.map((dwarf: Dwarf) => {
+    [age.minAge, age.maxAge] = getMinAndMax(age.minAge, age.maxAge, dwarf.age);
+    [weight.minWeight, weight.maxWeight] = getMinAndMax(
+      weight.minWeight,
+      weight.maxWeight,
+      dwarf.weight,
+    );
+    [height.minHeight, height.maxHeight] = getMinAndMax(
+      height.minHeight,
+      height.maxHeight,
+      dwarf.height,
+    );
+
+    filterParameters.hairColor.add(dwarf.hair_color);
 
     dwarf.professions.map((profession) => {
-      professions.add(profession);
+      filterParameters.professions.add(profession);
       return null;
     });
+
     return null;
   });
 
-  hairColor = [...hairColor];
-  professions = [...professions];
-
-  maxAge = Math.round(maxAge);
-  maxHeight = Math.round(maxHeight);
-  maxWeight = Math.round(maxWeight);
-
   return {
-    maxAge,
-    maxHeight,
-    maxWeight,
-    hairColor,
-    professions,
+    filterParameters,
   };
 };
 

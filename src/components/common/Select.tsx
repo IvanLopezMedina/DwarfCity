@@ -48,7 +48,7 @@ export default function ControlledOpenSelect({label = '', selectData}) {
           value={data}
           onChange={handleChange}
         >
-          {selectData.map((data) => (
+          {[...selectData].map((data) => (
             <MenuItem key={data} value={data}>
               {data}
             </MenuItem>
