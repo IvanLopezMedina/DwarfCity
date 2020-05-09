@@ -1,7 +1,8 @@
 export default {
   dwarves: [],
-  searchedDwarfName: [],
+  searchedDwarves: [],
   apiCallsInProgress: 0,
   isFilterOn: false,
   filterParameters: {},
+  searchedName: '',
 };

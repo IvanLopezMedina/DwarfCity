@@ -3,7 +3,7 @@ import initialState from './initialState';
 
 // Whatever you return from your reducer it becomes the new state
 export default function dwarvesReducer(
-  state = initialState.searchedDwarfName,
+  state = initialState.searchedDwarves,
   action,
 ) {
   switch (action.type) {
@@ -11,7 +11,9 @@ export default function dwarvesReducer(
       if (action.dwarves && action.dwarves.length > 0) return action.dwarves;
       return state;
     case types.SEARCH_DWARVES_BY_NAME:
-      return state.filter((dwarf: any) => dwarf.name.includes(action.name));
+      return state.filter((dwarf: any) =>
+        dwarf.name.toLowerCase().includes(action.name.toLowerCase()),
+      );
     case types.FILTER_DWARVES:
       const filtered = state.filter((dwarf: any) => {
         if (

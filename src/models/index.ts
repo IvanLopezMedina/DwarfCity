@@ -13,8 +13,9 @@ export interface Dwarf {
 export interface State {
   dwarves: Dwarf[];
   apiCallsInProgress: number;
-  searchedDwarfName: string;
+  searchedDwarves: [];
   isFilterOn: boolean;
+  searchedName: string;
 }
 
 export interface FilterDwarves {

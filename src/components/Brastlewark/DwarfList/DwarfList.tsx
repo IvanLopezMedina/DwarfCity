@@ -70,7 +70,7 @@ const DwarfList = ({dwarves, loadDwarves, loading, loadedDwarfs}) => {
 const mapStateToProps = (state) => {
   return {
     dwarves: state.dwarves,
-    loadedDwarfs: state.searchedDwarfName,
+    loadedDwarfs: state.searchedDwarves,
     loading: state.apiCallsInProgress > 0,
   };
 };

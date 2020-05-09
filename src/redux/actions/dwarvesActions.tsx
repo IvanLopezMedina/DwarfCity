@@ -10,6 +10,10 @@ export function searchDwarvesByName(name) {
   return {type: types.SEARCH_DWARVES_BY_NAME, name};
 }
 
+export function saveSearchedName(name) {
+  return {type: types.SAVE_SEARCHED_NAME, name};
+}
+
 export function filterDwarvesByParams(params) {
   return {type: types.FILTER_DWARVES, params};
 }
@@ -45,11 +49,17 @@ export function loadDwarves() {
 
 export function searchDwarves(name, reset, search) {
   return function (dispatch, getState) {
-    if (reset) dispatch(copyDwarves(getState().dwarves));
+    if (reset) {
+      dispatch(copyDwarves(getState().dwarves));
+      dispatch(saveSearchedName(''));
+    }
     if (getState().isFilterOn) {
       dispatch(filterDwarvesByParams(getState().filterParameters));
     }
-    if (search) dispatch(searchDwarvesByName(name));
+    if (search) {
+      dispatch(saveSearchedName(name));
+      dispatch(searchDwarvesByName(name));
+    }
   };
 }
 
@@ -57,7 +67,12 @@ export function filterDwarves(params) {
   return function (dispatch, getState) {
     if (getState().isFilterOn) {
       dispatch(toggleFilter(!getState().isFilterOn));
-      dispatch(copyDwarves(getState().dwarves));
+      if (getState().searchedName !== '') {
+        dispatch(copyDwarves(getState().dwarves));
+        dispatch(searchDwarvesByName(getState().searchedName));
+      } else {
+        dispatch(copyDwarves(getState().dwarves));
+      }
     } else {
       dispatch(toggleFilter(!getState().isFilterOn));
       dispatch(filterDwarvesByParams(params));
