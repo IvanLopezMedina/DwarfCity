@@ -18,13 +18,18 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function ControlledOpenSelect({label = '', selectData}) {
+export default function ControlledOpenSelect({
+  label = '',
+  selectData,
+  handleSonChange,
+}) {
   const classes = useStyles();
   const [data, setData] = React.useState<any>('');
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (event: React.ChangeEvent<{value: unknown}>) => {
     setData(event.target.value);
+    handleSonChange([label, event.target.value]);
   };
 
   const handleClose = () => {
@@ -48,6 +53,9 @@ export default function ControlledOpenSelect({label = '', selectData}) {
           value={data}
           onChange={handleChange}
         >
+          <MenuItem key={''} value={''}>
+            {'None'}
+          </MenuItem>
           {[...selectData].map((data) => (
             <MenuItem key={data} value={data}>
               {data}

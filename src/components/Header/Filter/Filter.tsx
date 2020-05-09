@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
+import {filterDwarves} from '../../../redux/actions/dwarvesActions';
 import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import FilterList from '@material-ui/icons/FilterList';
@@ -34,9 +35,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface FilterProps {
   filterParameters: FilterDwarves;
+  filterDwarves: (params: {}) => void;
+  isFilterOn: boolean;
+  resetFilter: (toggle: boolean) => void;
 }
 
-const Filter: React.FC<FilterProps> = ({filterParameters}) => {
+const Filter: React.FC<FilterProps> = ({
+  filterParameters,
+  filterDwarves,
+  isFilterOn,
+}) => {
   const classes = useStyles();
   const [toggleFilter, setToggleFilter] = useState<boolean>(false);
 
@@ -44,28 +52,71 @@ const Filter: React.FC<FilterProps> = ({filterParameters}) => {
     setToggleFilter(open);
   };
 
+  const [filterData, setFilterData] = useState({});
+
+  // Loads default data for filters
+  useEffect(() => {
+    let filterNewData = {
+      age: [filterParameters.age.minAge, filterParameters.age.maxAge],
+      height: [
+        filterParameters.height.minHeight,
+        filterParameters.height.maxHeight,
+      ],
+      weight: [
+        filterParameters.weight.minWeight,
+        filterParameters.weight.maxWeight,
+      ],
+      'hair color': '',
+      profession: '',
+    };
+
+    setFilterData(filterNewData);
+  }, [filterParameters]);
+
+  const handleSonChange = (data) => {
+    let key = data[0];
+    let value = data[1];
+    setFilterData({...filterData, [key]: value});
+  };
+
+  const handleClick = () => {
+    filterDwarves(filterData);
+    setToggleFilter(!toggleFilter);
+  };
+
   const filterItems = [
     <Slider
-      label={'Age'}
+      handleSonChange={handleSonChange}
+      label={'age'}
       range={[filterParameters.age.minAge, filterParameters.age.maxAge]}
     />,
     <Slider
-      label={'Height'}
+      handleSonChange={handleSonChange}
+      label={'height'}
       range={[
         filterParameters.height.minHeight,
         filterParameters.height.maxHeight,
       ]}
     />,
     <Slider
-      label={'Weight'}
+      handleSonChange={handleSonChange}
+      label={'weight'}
       range={[
         filterParameters.weight.minWeight,
         filterParameters.weight.maxWeight,
       ]}
     />,
-    <Select label={'Hair color'} selectData={filterParameters.hairColor} />,
-    <Select label={'Profession'} selectData={filterParameters.professions} />,
-    <Button text={'Filter'} />,
+    <Select
+      handleSonChange={handleSonChange}
+      label={'hair color'}
+      selectData={filterParameters.hairColor}
+    />,
+    <Select
+      handleSonChange={handleSonChange}
+      label={'profession'}
+      selectData={filterParameters.professions}
+    />,
+    <Button text={'Filter'} handleOnClick={handleClick} />,
   ];
 
   const list: () => JSX.Element = () => (
@@ -80,9 +131,13 @@ const Filter: React.FC<FilterProps> = ({filterParameters}) => {
         <Typography variant="h5" align="center">
           Filter dwarves
         </Typography>
-        {filterItems.map((filterItem, index) => (
-          <ListItem key={index}>{filterItem}</ListItem>
-        ))}
+        {isFilterOn ? (
+          <Button text={'Remove Filter'} handleOnClick={handleClick} />
+        ) : (
+          filterItems.map((filterItem, index) => (
+            <ListItem key={index}>{filterItem}</ListItem>
+          ))
+        )}
       </List>
     </>
   );
@@ -124,9 +179,9 @@ const getMinAndMax: (
 };
 
 const mapStateToProps = (state: State) => {
-  console.log(state.dwarves);
   const DEFAULT_MIN: number = 999;
   const DEFAULT_MAX: number = 0;
+  const isFilterOn: boolean = state.isFilterOn;
 
   var filterParameters: FilterDwarves = {
     age: {minAge: DEFAULT_MIN, maxAge: DEFAULT_MAX},
@@ -165,7 +220,12 @@ const mapStateToProps = (state: State) => {
 
   return {
     filterParameters,
+    isFilterOn,
   };
 };
 
-export default connect(mapStateToProps, null)(Filter);
+const mapDispatchToProps = {
+  filterDwarves,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

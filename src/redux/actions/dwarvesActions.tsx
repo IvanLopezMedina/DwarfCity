@@ -10,6 +10,15 @@ export function searchDwarvesByName(name) {
   return {type: types.SEARCH_DWARVES_BY_NAME, name};
 }
 
+export function filterDwarvesByParams(params) {
+  return {type: types.FILTER_DWARVES, params};
+}
+
+export function toggleFilter(toggle) {
+  if (toggle) return {type: types.TOGGLE_FILTER, toggle};
+  else return {type: types.TOGGLE_FILTER, toggle};
+}
+
 export function copyDwarves(dwarves) {
   return {type: types.COPY_DWARVES, dwarves};
 }
@@ -34,5 +43,17 @@ export function searchDwarves(name, reset, search) {
   return function (dispatch, getState) {
     if (reset) dispatch(copyDwarves(getState().dwarves));
     if (search) dispatch(searchDwarvesByName(name));
+  };
+}
+
+export function filterDwarves(params) {
+  return function (dispatch, getState) {
+    if (getState().isFilterOn) {
+      dispatch(toggleFilter(!getState().isFilterOn));
+      dispatch(copyDwarves(getState().dwarves));
+    } else {
+      dispatch(toggleFilter(!getState().isFilterOn));
+      dispatch(filterDwarvesByParams(params));
+    }
   };
 }
