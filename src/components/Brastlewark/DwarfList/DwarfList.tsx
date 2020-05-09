@@ -46,15 +46,17 @@ const DwarfList = ({dwarves, loadDwarves, loading, loadedDwarfs}) => {
   const dwarfList = () => {
     if (displayedDwarfs && displayedDwarfs.length > 0) {
       return (
-        <InfiniteScroll
-          className="dwarf-list"
-          loadMore={appendDwarves}
-          hasMore={loadedDwarfs.length > displayedDwarfs.length}
-        >
-          {displayedDwarfs.map((dwarf) => (
-            <DwarfItem key={dwarf['id']} dwarf={dwarf} />
-          ))}
-        </InfiniteScroll>
+        <div className="dwarf-container">
+          <InfiniteScroll
+            className="dwarf-list"
+            loadMore={appendDwarves}
+            hasMore={loadedDwarfs.length > displayedDwarfs.length}
+          >
+            {displayedDwarfs.map((dwarf) => (
+              <DwarfItem key={dwarf['id']} dwarf={dwarf} />
+            ))}
+          </InfiniteScroll>
+        </div>
       );
     }
   };

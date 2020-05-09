@@ -41,7 +41,7 @@ const Header: React.FC = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" color="transparent">
+      <AppBar position="fixed" color="primary">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             Brastlewark
@@ -52,6 +52,7 @@ const Header: React.FC = () => {
           <Filter />
         </Toolbar>
       </AppBar>
+      <Toolbar />
     </div>
   );
 };
