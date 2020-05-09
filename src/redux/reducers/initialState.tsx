@@ -1,5 +1,5 @@
 export default {
   dwarves: [],
-  searchedDwarfName: '',
+  searchedDwarfName: [],
   apiCallsInProgress: 0,
 };

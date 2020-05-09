@@ -10,13 +10,18 @@ export function searchDwarvesByName(name) {
   return {type: types.SEARCH_DWARVES_BY_NAME, name};
 }
 
+export function copyDwarves(dwarves) {
+  return {type: types.COPY_DWARVES, dwarves};
+}
+
 export function loadDwarves() {
   return function (dispatch) {
     dispatch(beginApiCall());
     return dwarvesApi
       .getDwarves()
-      .then((authors) => {
-        dispatch(loadDwarvesSuccess(authors));
+      .then((dwarves) => {
+        dispatch(loadDwarvesSuccess(dwarves.Brastlewark));
+        dispatch(copyDwarves(dwarves.Brastlewark));
       })
       .catch((error) => {
         dispatch(apiCallError());
@@ -25,8 +30,9 @@ export function loadDwarves() {
   };
 }
 
-export function searchByName(name) {
-  return function (dispatch) {
-    dispatch(searchDwarvesByName(name));
+export function searchDwarves(name, reset, search) {
+  return function (dispatch, getState) {
+    if (reset) dispatch(copyDwarves(getState().dwarves));
+    if (search) dispatch(searchDwarvesByName(name));
   };
 }
