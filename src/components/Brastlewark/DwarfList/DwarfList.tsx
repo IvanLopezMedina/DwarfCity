@@ -6,18 +6,14 @@ import Spinner from '../../common/Spinner';
 import DwarfItem from '../DwarfItem/DwarfItem';
 import './DwarfList.scss';
 
-const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
+const DwarfList = ({dwarves, loadDwarves, loading, loadedDwarfs}) => {
   const [page, setPage] = useState(10);
   const [displayedDwarfs, setdisplayedDwarfs] = useState([]);
 
   const resetdisplayedDwarfs = () => {
     // If dwarves reloads reset pagination and loaded dwarves
     setPage(10);
-    setdisplayedDwarfs(dwarves.slice(0, page - 1));
-  };
-
-  const filterDwarvesByName = (dwarvesArray: any) => {
-    return dwarvesArray.filter((dwarf: any) => dwarf.name.includes(searchedDwarfName));
+    setdisplayedDwarfs(loadedDwarfs.slice(0, page - 1));
   };
 
   useEffect(() => {
@@ -31,16 +27,16 @@ const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
   }, [dwarves]);
 
   useEffect(() => {
-    setdisplayedDwarfs(filterDwarvesByName(dwarves));
-    if (searchedDwarfName.length === 0) {
+    setdisplayedDwarfs(loadedDwarfs.slice(0, page));
+    if (loadedDwarfs.length === 0) {
       resetdisplayedDwarfs();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchedDwarfName]);
+  }, [loadedDwarfs]);
 
   const appendDwarves = () => {
     const PAGINATION = 10;
-    const dwarvesSliced = dwarves.slice(page, page + PAGINATION);
+    const dwarvesSliced = loadedDwarfs.slice(page, page + PAGINATION);
     const newDwarvesArray: any = [...displayedDwarfs, ...dwarvesSliced];
 
     setdisplayedDwarfs(newDwarvesArray);
@@ -53,7 +49,7 @@ const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
         <InfiniteScroll
           className="dwarf-list"
           loadMore={appendDwarves}
-          hasMore={dwarves.length > displayedDwarfs.length && searchedDwarfName.length === 0}
+          hasMore={loadedDwarfs.length > displayedDwarfs.length}
         >
           {displayedDwarfs.map((dwarf) => (
             <DwarfItem key={dwarf['id']} dwarf={dwarf} />
@@ -74,7 +70,7 @@ const DwarfList = ({dwarves, loadDwarves, loading, searchedDwarfName}) => {
 const mapStateToProps = (state) => {
   return {
     dwarves: state.dwarves,
-    searchedDwarfName: state.searchedDwarfName,
+    loadedDwarfs: state.searchedDwarfName,
     loading: state.apiCallsInProgress > 0,
   };
 };

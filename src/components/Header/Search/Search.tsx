@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import {
   loadDwarves,
-  searchDwarvesByName,
+  searchDwarves,
 } from '../../../redux/actions/dwarvesActions';
 import {fade, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
@@ -50,18 +50,33 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface SearchProps {
-  searchDwarvesByName: (name: string) => void;
+  searchDwarves: (name: string, reset: boolean, search: boolean) => void;
 }
 
-const Search: React.FC<SearchProps> = ({searchDwarvesByName}) => {
+const Search: React.FC<SearchProps> = ({searchDwarves}) => {
   const classes = useStyles();
 
   const [name, setName] = useState<string>('');
+  const prevNameRef: any = useRef();
 
   useEffect(() => {
-    searchDwarvesByName(name);
+    prevNameRef.current = name;
+
+    // Checks if the search needs to be reset or done
+    if (name && name.length > 0) {
+      if (prevName && prevName.length > 0) {
+        if (name.length < prevName.length) {
+          searchDwarves(name, true, true);
+        }
+      }
+      searchDwarves(name, false, true);
+    } else if (name.length === 0) {
+      searchDwarves(name, true, false);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
+  const prevName = prevNameRef.current;
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') setName(e.currentTarget.value);
@@ -70,14 +85,6 @@ const Search: React.FC<SearchProps> = ({searchDwarvesByName}) => {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.currentTarget.value;
     if (name.length === 0) setName(name);
-  };
-
-  const resetSearch = () => {
-    setName('');
-    const searchInputEl = document.getElementById(
-      'inputSearch',
-    ) as HTMLInputElement;
-    searchInputEl.value = '';
   };
 
   return (
@@ -97,13 +104,12 @@ const Search: React.FC<SearchProps> = ({searchDwarvesByName}) => {
         }}
         inputProps={{'aria-label': 'search'}}
       />
-      {name.length > 0 && <button onClick={resetSearch}>Reset search</button>}
     </div>
   );
 };
 
 const mapDispatchToProps = {
-  searchDwarvesByName,
+  searchDwarves,
   loadDwarves,
 };
 
