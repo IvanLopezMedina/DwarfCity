@@ -1,9 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
-import {
-  loadDwarves,
-  searchDwarves,
-} from '../../../redux/actions/dwarvesActions';
+import {searchDwarves} from '../../../redux/actions/dwarvesActions';
 import {fade, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
@@ -110,7 +107,6 @@ const Search: React.FC<SearchProps> = ({searchDwarves}) => {
 
 const mapDispatchToProps = {
   searchDwarves,
-  loadDwarves,
 };
 
 export default connect(null, mapDispatchToProps)(Search);

@@ -14,6 +14,10 @@ export function filterDwarvesByParams(params) {
   return {type: types.FILTER_DWARVES, params};
 }
 
+export function saveFilterParameters(params) {
+  return {type: types.SAVE_FILTER_PARAMETERS, params};
+}
+
 export function toggleFilter(toggle) {
   if (toggle) return {type: types.TOGGLE_FILTER, toggle};
   else return {type: types.TOGGLE_FILTER, toggle};
@@ -42,6 +46,9 @@ export function loadDwarves() {
 export function searchDwarves(name, reset, search) {
   return function (dispatch, getState) {
     if (reset) dispatch(copyDwarves(getState().dwarves));
+    if (getState().isFilterOn) {
+      dispatch(filterDwarvesByParams(getState().filterParameters));
+    }
     if (search) dispatch(searchDwarvesByName(name));
   };
 }
@@ -55,5 +62,6 @@ export function filterDwarves(params) {
       dispatch(toggleFilter(!getState().isFilterOn));
       dispatch(filterDwarvesByParams(params));
     }
+    dispatch(saveFilterParameters(params));
   };
 }

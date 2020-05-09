@@ -3,4 +3,5 @@ export default {
   searchedDwarfName: [],
   apiCallsInProgress: 0,
   isFilterOn: false,
+  filterParameters: {},
 };
