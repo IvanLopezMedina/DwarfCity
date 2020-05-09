@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../Header/Header';
 import DwarfList from './DwarfList/DwarfList';
 
-const Brastlewark = () => {
+const Brastlewark: React.FC = () => {
   return (
     <>
       <Header />

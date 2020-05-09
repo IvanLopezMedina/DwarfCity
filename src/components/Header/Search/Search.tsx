@@ -49,7 +49,9 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-type SearchProps = {searchDwarvesByName: (name: string) => void};
+interface SearchProps {
+  searchDwarvesByName: (name: string) => void;
+}
 
 const Search: React.FC<SearchProps> = ({searchDwarvesByName}) => {
   const classes = useStyles();

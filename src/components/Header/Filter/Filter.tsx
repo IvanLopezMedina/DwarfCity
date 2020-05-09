@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '../../common/Button';
 import Select from '../../common/Select';
 import Slider from '../../common/Slider';
+import {Dwarf, State, FilterDwarves} from '../../../models';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,17 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-type FilterParameters = {
-  age: {minAge: number; maxAge: number};
-  height: {minHeight: number; maxHeight: number};
-  weight: {minWeight: number; maxWeight: number};
-  hairColor: Set<string>;
-  professions: Set<string>;
-};
-
-type FilterProps = {
-  filterParameters: FilterParameters;
-};
+interface FilterProps {
+  filterParameters: FilterDwarves;
+}
 
 const Filter: React.FC<FilterProps> = ({filterParameters}) => {
   const classes = useStyles();
@@ -119,20 +112,6 @@ const Filter: React.FC<FilterProps> = ({filterParameters}) => {
   );
 };
 
-type Dwarf = {
-  age: number;
-  height: number;
-  weight: number;
-  hair_color: string;
-  professions: string[];
-};
-
-type StateProps = {
-  dwarves: Dwarf[];
-  apiCallsInProgress: number;
-  searchedDwarfName: string;
-};
-
 const getMinAndMax: (
   currentMin: number,
   currentMax: number,
@@ -144,11 +123,12 @@ const getMinAndMax: (
   return [currentMin, currentMax];
 };
 
-const mapStateToProps = (state: StateProps) => {
+const mapStateToProps = (state: State) => {
+  console.log(state.dwarves);
   const DEFAULT_MIN: number = 999;
   const DEFAULT_MAX: number = 0;
 
-  var filterParameters: FilterParameters = {
+  var filterParameters: FilterDwarves = {
     age: {minAge: DEFAULT_MIN, maxAge: DEFAULT_MAX},
     height: {minHeight: DEFAULT_MIN, maxHeight: DEFAULT_MAX},
     weight: {minWeight: DEFAULT_MIN, maxWeight: DEFAULT_MAX},
