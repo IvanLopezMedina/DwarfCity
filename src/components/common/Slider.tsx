@@ -13,7 +13,17 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-export default function RangeSlider({label = '', range, handleSonChange}) {
+interface SliderProps {
+  label: string;
+  range: [number, number];
+  handleSonChange: (data: [string, string | number[]]) => void;
+}
+
+const RangeSlider: React.FC<SliderProps> = ({
+  label = '',
+  range,
+  handleSonChange,
+}) => {
   const classes = useStyles();
   const [value, setValue] = React.useState<number[]>([
     Math.trunc(range[0]),
@@ -41,4 +51,5 @@ export default function RangeSlider({label = '', range, handleSonChange}) {
       />
     </div>
   );
-}
+};
+export default RangeSlider;

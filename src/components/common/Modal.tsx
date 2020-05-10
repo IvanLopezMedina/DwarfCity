@@ -20,7 +20,13 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function TransitionsModal({openModal, handleClose, card}) {
+interface cardProps {
+  openModal: any;
+  handleClose: any;
+  card: JSX.Element;
+}
+
+const DwarfModal: React.FC<cardProps> = ({openModal, handleClose, card}) => {
   const classes = useStyles();
 
   return (
@@ -41,4 +47,6 @@ export default function TransitionsModal({openModal, handleClose, card}) {
       </Modal>
     </div>
   );
-}
+};
+
+export default DwarfModal;

@@ -18,18 +18,24 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function ControlledOpenSelect({
+interface SelectProps {
+  label: string;
+  selectData: any;
+  handleSonChange: (data: [string, string]) => void;
+}
+
+const ControlledOpenSelect: React.FC<SelectProps> = ({
   label = '',
   selectData,
   handleSonChange,
-}) {
+}) => {
   const classes = useStyles();
   const [data, setData] = React.useState<any>('');
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (event: React.ChangeEvent<{value: unknown}>) => {
     setData(event.target.value);
-    handleSonChange([label, event.target.value]);
+    handleSonChange([label, event.target.value as string]);
   };
 
   const handleClose = () => {
@@ -65,4 +71,6 @@ export default function ControlledOpenSelect({
       </FormControl>
     </div>
   );
-}
+};
+
+export default ControlledOpenSelect;

@@ -52,7 +52,7 @@ const Filter: React.FC<FilterProps> = ({
     setToggleFilter(open);
   };
 
-  const [filterData, setFilterData] = useState({});
+  const [filterData, setFilterData] = useState<{}>({});
 
   // Loads default data for filters
   useEffect(() => {
@@ -73,7 +73,9 @@ const Filter: React.FC<FilterProps> = ({
     setFilterData(filterNewData);
   }, [filterParameters]);
 
-  const handleSonChange = (data) => {
+  const handleSonChange: (data: [string, number[] | string]) => void = (
+    data,
+  ) => {
     let key = data[0];
     let value = data[1];
     setFilterData({...filterData, [key]: value});
@@ -84,7 +86,7 @@ const Filter: React.FC<FilterProps> = ({
     setToggleFilter(!toggleFilter);
   };
 
-  const filterItems = [
+  const filterItems: JSX.Element[] = [
     <Slider
       handleSonChange={handleSonChange}
       label={'age'}

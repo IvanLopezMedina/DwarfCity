@@ -27,7 +27,7 @@ const DwarfItem: React.FC<DwarfProps> = ({dwarf}) => {
     return professions;
   };
 
-  const card: React.ReactNode = <Card dwarf={dwarf} />;
+  const card: JSX.Element = <Card dwarf={dwarf} />;
 
   return (
     <>
