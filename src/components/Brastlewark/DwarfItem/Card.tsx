@@ -13,6 +13,8 @@ const useStyles = makeStyles({
   root: {
     width: 800,
     minHeight: 300,
+    maxHeight: '90%',
+    overflowY: 'scroll',
   },
   gridRoot: {
     flexGrow: 1,
