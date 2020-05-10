@@ -145,12 +145,18 @@ const Filter: React.FC<FilterProps> = ({
   return (
     <>
       <div className={classes.sectionDesktop}>
-        <IconButton onClick={toggleDrawer(true)} color="inherit">
+        <IconButton
+          onClick={toggleDrawer(true)}
+          color={isFilterOn ? 'secondary' : 'inherit'}
+        >
           <FilterList />
         </IconButton>
       </div>
       <div className={classes.sectionMobile}>
-        <IconButton onClick={toggleDrawer(true)} color="inherit">
+        <IconButton
+          onClick={toggleDrawer(true)}
+          color={isFilterOn ? 'secondary' : 'inherit'}
+        >
           <FilterList />
         </IconButton>
         {toggleFilter && (
