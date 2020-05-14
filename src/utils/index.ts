@@ -27,7 +27,7 @@ export const getDefaultFilterParameters = (dwarves) => {
   let weight = filterParameters.weight;
   let height = filterParameters.height;
 
-  dwarves.map((dwarf: Dwarf) => {
+  dwarves.forEach((dwarf: Dwarf) => {
     [age.minAge, age.maxAge] = getMinAndMax(age.minAge, age.maxAge, dwarf.age);
     [weight.minWeight, weight.maxWeight] = getMinAndMax(
       weight.minWeight,
@@ -42,13 +42,42 @@ export const getDefaultFilterParameters = (dwarves) => {
 
     filterParameters.hairColor.add(dwarf.hair_color);
 
-    dwarf.professions.map((profession) => {
+    dwarf.professions.forEach((profession) => {
       filterParameters.professions.add(profession);
-      return null;
     });
-
-    return null;
   });
 
   return filterParameters;
+};
+
+export const getFilteredDwarves = (state, params) => {
+  var filtered = state
+    .filter(
+      (dwarf: any) => dwarf.age > params.age[0] && dwarf.age < params.age[1],
+    )
+    .filter(
+      (dwarf: any) =>
+        dwarf.weight > params.weight[0] && dwarf.weight < params.weight[1],
+    )
+    .filter(
+      (dwarf: any) =>
+        dwarf.height > params.height[0] && dwarf.height < params.height[1],
+    )
+    .filter((dwarf: any) => {
+      if (params['hair color'] !== '') {
+        if (dwarf.hair_color === params['hair color']) {
+          if (params.profession === '') return true;
+          else {
+            if (dwarf.professions.includes(params.profession)) return true;
+          }
+        }
+      } else {
+        if (params.profession !== '') {
+          if (dwarf.professions.includes(params.profession)) return true;
+        } else return true;
+      }
+      return false;
+    });
+
+  return filtered;
 };
