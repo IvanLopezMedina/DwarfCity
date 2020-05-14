@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {searchDwarves} from '../../../redux/actions/dwarvesActions';
 import {fade, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
@@ -46,11 +46,8 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface SearchProps {
-  searchDwarves: (name: string, reset: boolean, search: boolean) => void;
-}
-
-const Search: React.FC<SearchProps> = ({searchDwarves}) => {
+const Search: React.FC<{}> = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   const [name, setName] = useState<string>('');
@@ -58,17 +55,16 @@ const Search: React.FC<SearchProps> = ({searchDwarves}) => {
 
   useEffect(() => {
     prevNameRef.current = name;
-
     // Checks if the search needs to be reset or done
     if (name && name.length > 0) {
       if (prevName && prevName.length > 0) {
         if (name.length < prevName.length) {
-          searchDwarves(name, true, true);
+          dispatch(searchDwarves(name, true, true));
         }
       }
-      searchDwarves(name, false, true);
+      dispatch(searchDwarves(name, false, true));
     } else if (name.length === 0) {
-      searchDwarves(name, true, false);
+      dispatch(searchDwarves(name, true, false));
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,8 +101,4 @@ const Search: React.FC<SearchProps> = ({searchDwarves}) => {
   );
 };
 
-const mapDispatchToProps = {
-  searchDwarves,
-};
-
-export default connect(null, mapDispatchToProps)(Search);
+export default Search;
