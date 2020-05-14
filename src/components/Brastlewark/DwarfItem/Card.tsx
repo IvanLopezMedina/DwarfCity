@@ -52,7 +52,7 @@ const DwarfCard: React.FC<DwarfProps> = ({dwarf}) => {
 
         <CardContent>
           <Grid container className={classes.gridRoot}>
-            <Grid xs={12} sm={5} key="personal_info" item>
+            <Grid xs={12} sm={5} key="personal_info1" item>
               <CardMedia
                 className={classes.cardMedia}
                 component="img"
@@ -61,19 +61,19 @@ const DwarfCard: React.FC<DwarfProps> = ({dwarf}) => {
                 title="Dwarf image"
               />
             </Grid>
-            <Grid xs={12} sm={7} key="personal_info" item>
+            <Grid xs={12} sm={7} key="personal_info2" item>
               <h3 className={classes.textCenter}>Personal Information</h3>
               <Typography variant="body2" color="textSecondary" component="ul">
-                <li>
+                <li key="age">
                   <b>Age:</b> {dwarf.age}
                 </li>
-                <li>
+                <li key="height">
                   <b>Height:</b> {Math.round(dwarf.height)} cm
                 </li>
-                <li>
+                <li key="weight">
                   <b>Weight:</b> {Math.round(dwarf.weight)} kg
                 </li>
-                <li>
+                <li key="hair color">
                   <b>Hair color:</b>
                   <span style={{color: dwarf['hair_color']}}>
                     {' ' + dwarf['hair_color']}
@@ -90,8 +90,8 @@ const DwarfCard: React.FC<DwarfProps> = ({dwarf}) => {
                   color="textSecondary"
                   component="ul"
                 >
-                  {dwarf.professions.map((profession) => (
-                    <li>{profession}</li>
+                  {dwarf.professions.map((profession, index) => (
+                    <li key={index}>{profession}</li>
                   ))}
                 </Typography>
               </Paper>
