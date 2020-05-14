@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import * as dwarvesApi from '../../api/dwarvesApi';
 import {beginApiCall, apiCallError} from './apiStatusActions';
+import {getDefaultFilterParameters} from '../../utils';
 
 export function loadDwarvesSuccess(dwarves) {
   return {type: types.LOAD_DWARVES_SUCCESS, dwarves};
@@ -22,6 +23,10 @@ export function saveFilterParameters(params) {
   return {type: types.SAVE_FILTER_PARAMETERS, params};
 }
 
+export function saveDefaultFilterParameters(params) {
+  return {type: types.SAVE_DEFAULT_FILTER_PARAMETERS, params};
+}
+
 export function toggleFilter(toggle) {
   if (toggle) return {type: types.TOGGLE_FILTER, toggle};
   else return {type: types.TOGGLE_FILTER, toggle};
@@ -39,6 +44,11 @@ export function loadDwarves() {
       .then((dwarves) => {
         dispatch(loadDwarvesSuccess(dwarves.Brastlewark));
         dispatch(copyDwarves(dwarves.Brastlewark));
+        dispatch(
+          saveDefaultFilterParameters(
+            getDefaultFilterParameters(dwarves.Brastlewark),
+          ),
+        );
       })
       .catch((error) => {
         dispatch(apiCallError());

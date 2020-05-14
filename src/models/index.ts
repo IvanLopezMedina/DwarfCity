@@ -16,6 +16,7 @@ export interface State {
   searchedDwarves: [];
   isFilterOn: boolean;
   searchedName: string;
+  defaultFilterParameters: [];
 }
 
 export interface FilterDwarves {

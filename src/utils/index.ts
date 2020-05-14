@@ -1,6 +1,6 @@
 import {FilterDwarves, Dwarf} from '../models/';
 
-export const getMinAndMax: (
+const getMinAndMax: (
   currentMin: number,
   currentMax: number,
   value: number,
@@ -11,7 +11,7 @@ export const getMinAndMax: (
   return [currentMin, currentMax];
 };
 
-export const getFilterParameters = (dwarves) => {
+export const getDefaultFilterParameters = (dwarves) => {
   const DEFAULT_MIN: number = 999;
   const DEFAULT_MAX: number = 0;
 
@@ -22,11 +22,12 @@ export const getFilterParameters = (dwarves) => {
     hairColor: new Set(),
     professions: new Set(),
   };
+
   let age = filterParameters.age;
   let weight = filterParameters.weight;
   let height = filterParameters.height;
 
-  dwarves.foEeach((dwarf: Dwarf) => {
+  dwarves.map((dwarf: Dwarf) => {
     [age.minAge, age.maxAge] = getMinAndMax(age.minAge, age.maxAge, dwarf.age);
     [weight.minWeight, weight.maxWeight] = getMinAndMax(
       weight.minWeight,
@@ -41,9 +42,12 @@ export const getFilterParameters = (dwarves) => {
 
     filterParameters.hairColor.add(dwarf.hair_color);
 
-    dwarf.professions.forEach((profession) => {
+    dwarf.professions.map((profession) => {
       filterParameters.professions.add(profession);
+      return null;
     });
+
+    return null;
   });
 
   return filterParameters;
