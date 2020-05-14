@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '../../common/Button';
 import Select from '../../common/Select';
 import Slider from '../../common/Slider';
+import {useSelector, useDispatch} from 'react-redux';
 import {Dwarf, State, FilterDwarves} from '../../../models';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -35,16 +36,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface FilterProps {
   filterParameters: FilterDwarves;
-  filterDwarves: (params: {}) => void;
-  isFilterOn: boolean;
-  resetFilter: (toggle: boolean) => void;
 }
 
-const Filter: React.FC<FilterProps> = ({
-  filterParameters,
-  filterDwarves,
-  isFilterOn,
-}) => {
+const Filter: React.FC<FilterProps> = ({filterParameters}) => {
+  const dispatch = useDispatch();
+  const isFilterOn = useSelector((state: State) => state.isFilterOn);
+
+  // TODO: Move filterParameters from mapStateToProps to useSelector
+  //const dwarves = useSelector((state: State) => state.dwarves);
   const classes = useStyles();
   const [toggleFilter, setToggleFilter] = useState<boolean>(false);
 
@@ -82,7 +81,7 @@ const Filter: React.FC<FilterProps> = ({
   };
 
   const handleClick = () => {
-    filterDwarves(filterData);
+    dispatch(filterDwarves(filterData));
     setToggleFilter(!toggleFilter);
   };
 
@@ -189,7 +188,6 @@ const getMinAndMax: (
 const mapStateToProps = (state: State) => {
   const DEFAULT_MIN: number = 999;
   const DEFAULT_MAX: number = 0;
-  const isFilterOn: boolean = state.isFilterOn;
 
   var filterParameters: FilterDwarves = {
     age: {minAge: DEFAULT_MIN, maxAge: DEFAULT_MAX},
@@ -228,12 +226,7 @@ const mapStateToProps = (state: State) => {
 
   return {
     filterParameters,
-    isFilterOn,
   };
 };
 
-const mapDispatchToProps = {
-  filterDwarves,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default connect(mapStateToProps, null)(Filter);
