@@ -43,7 +43,9 @@ const DwarfModal: React.FC<cardProps> = ({openModal, handleClose, card}) => {
           timeout: 500,
         }}
       >
-        <Fade in={openModal}>{card && card}</Fade>
+        <>
+          <Fade in={openModal}>{card && card}</Fade>
+        </>
       </Modal>
     </div>
   );

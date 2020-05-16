@@ -36,11 +36,15 @@ interface DwarfProps {
   dwarf: Dwarf;
 }
 
-const DwarfCard: React.FC<DwarfProps> = ({dwarf}) => {
+const DwarfCard = React.forwardRef<unknown, DwarfProps>(function DwarfCard(
+  props,
+  ref,
+) {
   const classes = useStyles();
+  const dwarf: Dwarf = props.dwarf;
 
   return (
-    <Card className={classes.root}>
+    <Card ref={ref} className={classes.root}>
       <CardActionArea>
         <CardContent>
           <Typography
@@ -118,6 +122,6 @@ const DwarfCard: React.FC<DwarfProps> = ({dwarf}) => {
       </CardActionArea>
     </Card>
   );
-};
+});
 
 export default DwarfCard;
