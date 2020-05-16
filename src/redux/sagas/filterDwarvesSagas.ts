@@ -10,16 +10,13 @@ import {
 
 function* filterDwarves(data) {
   const state = yield select();
+  yield put(toggleFilter(!state.isFilterOn));
   if (state.isFilterOn) {
-    yield put(toggleFilter(!state.isFilterOn));
+    yield put(copyDwarves(state.dwarves));
     if (state.searchedName !== '') {
-      yield put(copyDwarves(state.dwarves));
       yield put(searchDwarvesByName(state.searchedName));
-    } else {
-      yield put(copyDwarves(state.dwarves));
     }
   } else {
-    yield put(toggleFilter(!state.isFilterOn));
     yield put(filterDwarvesByParams(data.params));
   }
   yield put(saveFilterParameters(data.params));
