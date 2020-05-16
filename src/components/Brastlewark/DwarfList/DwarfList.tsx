@@ -1,12 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {loadDwarves} from '../../../redux/actions/dwarvesActions';
 import InfiniteScroll from 'react-infinite-scroller';
 import Spinner from '../../common/Spinner';
 import DwarfItem from '../DwarfItem/DwarfItem';
 import './DwarfList.scss';
+import {State} from '../../../models';
 
-const DwarfList = ({dwarves, loadDwarves, loading, loadedDwarfs}) => {
+const DwarfList = () => {
+  const dispatch = useDispatch();
+  const dwarves = useSelector((state: State) => state.dwarves);
+  const loading = useSelector((state: State) => state.apiCallsInProgress > 0);
+  const loadedDwarfs = useSelector((state: State) => state.searchedDwarves);
+
   const [page, setPage] = useState(10);
   const [displayedDwarfs, setdisplayedDwarfs] = useState([]);
 
@@ -19,7 +25,7 @@ const DwarfList = ({dwarves, loadDwarves, loading, loadedDwarfs}) => {
   useEffect(() => {
     resetdisplayedDwarfs();
     if (dwarves.length === 0) {
-      loadDwarves().catch((error) => {
+      dispatch(loadDwarves()).catch((error) => {
         alert('Loading dwarves failed' + error);
       });
     }
@@ -69,16 +75,4 @@ const DwarfList = ({dwarves, loadDwarves, loading, loadedDwarfs}) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    dwarves: state.dwarves,
-    loadedDwarfs: state.searchedDwarves,
-    loading: state.apiCallsInProgress > 0,
-  };
-};
-
-const mapDispatchToProps = {
-  loadDwarves,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DwarfList);
+export default DwarfList;
