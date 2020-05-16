@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useDispatch} from 'react-redux';
-import {searchDwarves} from '../../../redux/actions/dwarvesActions';
+import {getDwarvesByName} from '../../../redux/actions/searchDwarvesActions';
 import {fade, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
@@ -59,12 +59,15 @@ const Search: React.FC<{}> = () => {
     if (name && name.length > 0) {
       if (prevName && prevName.length > 0) {
         if (name.length < prevName.length) {
-          dispatch(searchDwarves(name, true, true));
+          //dispatch(searchDwarves(name, true, true));
+          dispatch(getDwarvesByName(name, true, true));
         }
       }
-      dispatch(searchDwarves(name, false, true));
+      //dispatch(searchDwarves(name, false, true));
+      dispatch(getDwarvesByName(name, true, true));
     } else if (name.length === 0) {
-      dispatch(searchDwarves(name, true, false));
+      //dispatch(searchDwarves(name, true, false));
+      dispatch(getDwarvesByName(name, true, true));
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

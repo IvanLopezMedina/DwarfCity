@@ -29,22 +29,6 @@ export function copyDwarves(dwarves) {
   return {type: types.COPY_DWARVES, dwarves};
 }
 
-export function searchDwarves(name, reset, search) {
-  return function (dispatch, getState) {
-    if (reset) {
-      dispatch(copyDwarves(getState().dwarves));
-      dispatch(saveSearchedName(''));
-    }
-    if (getState().isFilterOn) {
-      dispatch(filterDwarvesByParams(getState().filterParameters));
-    }
-    if (search) {
-      dispatch(saveSearchedName(name));
-      dispatch(searchDwarvesByName(name));
-    }
-  };
-}
-
 export function filterDwarves(params) {
   return function (dispatch, getState) {
     if (getState().isFilterOn) {
