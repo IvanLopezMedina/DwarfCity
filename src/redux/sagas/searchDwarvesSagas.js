@@ -1,10 +1,11 @@
 import {select, put, takeLatest, all} from 'redux-saga/effects';
 import * as types from '../actions/actionTypes';
+import {copyDwarves} from '../actions/loadDwarvesActions';
 import {
   searchDwarvesByName,
   saveSearchedName,
 } from '../actions/searchDwarvesActions';
-import {copyDwarves, filterDwarvesByParams} from '../actions/dwarvesActions';
+import {filterDwarvesByParams} from '../actions/dwarvesActions';
 
 function* searchDwarves(data) {
   const state = yield select();

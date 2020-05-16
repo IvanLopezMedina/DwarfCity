@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useStyles} from './styles';
-import {filterDwarves} from '../../../redux/actions/dwarvesActions';
+import {getFilteredDwarves} from '../../../redux/actions/dwarvesActions';
 import IconButton from '@material-ui/core/IconButton';
 import FilterList from '@material-ui/icons/FilterList';
 import Drawer from '@material-ui/core/Drawer';
@@ -58,7 +58,7 @@ const Filter: React.FC = () => {
   };
 
   const handleClick = () => {
-    dispatch(filterDwarves(filterData));
+    dispatch(getFilteredDwarves(filterData));
     setToggleFilter(!toggleFilter);
   };
 

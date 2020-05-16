@@ -1,12 +1,9 @@
 import {put, takeLatest, all, call} from 'redux-saga/effects';
 import * as types from '../actions/actionTypes';
 import * as dwarvesApi from '../../api/dwarvesApi';
-import {beginApiCall, apiCallError} from './../actions/apiStatusActions';
-import {setDwarves} from '../actions/loadDwarvesActions';
-import {
-  copyDwarves,
-  saveDefaultFilterParameters,
-} from '../actions/dwarvesActions';
+import {beginApiCall, apiCallError} from '../actions/apiStatusActions';
+import {setDwarves, copyDwarves} from '../actions/loadDwarvesActions';
+import {saveDefaultFilterParameters} from '../actions/dwarvesActions';
 import {getDefaultFilterParameters} from '../../utils';
 
 function* loadDwarves() {

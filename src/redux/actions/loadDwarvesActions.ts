@@ -7,3 +7,7 @@ export function getDwarves() {
 export function setDwarves(dwarves) {
   return {type: types.LOAD_DWARVES_SUCCESS, dwarves};
 }
+
+export function copyDwarves(dwarves) {
+  return {type: types.COPY_DWARVES, dwarves};
+}
