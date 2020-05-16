@@ -59,14 +59,11 @@ const Search: React.FC<{}> = () => {
     if (name && name.length > 0) {
       if (prevName && prevName.length > 0) {
         if (name.length < prevName.length) {
-          //dispatch(searchDwarves(name, true, true));
           dispatch(getDwarvesByName(name, true, true));
         }
       }
-      //dispatch(searchDwarves(name, false, true));
       dispatch(getDwarvesByName(name, true, true));
     } else if (name.length === 0) {
-      //dispatch(searchDwarves(name, true, false));
       dispatch(getDwarvesByName(name, true, true));
     }
 
@@ -74,13 +71,13 @@ const Search: React.FC<{}> = () => {
   }, [name]);
   const prevName = prevNameRef.current;
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  /*  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') setName(e.currentTarget.value);
-  };
+  }; */
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.currentTarget.value;
-    if (name.length === 0) setName(name);
+    setName(name);
   };
 
   return (
@@ -91,7 +88,7 @@ const Search: React.FC<{}> = () => {
 
       <InputBase
         id="inputSearch"
-        onKeyDown={handleKeyDown}
+        // onKeyDown={handleKeyDown}
         onChange={handleOnChange}
         placeholder="Search by name…"
         classes={{
