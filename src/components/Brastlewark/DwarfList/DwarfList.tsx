@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {loadDwarves} from '../../../redux/actions/dwarvesActions';
+import {getDwarves} from '../../../redux/actions/loadDwarvesActions';
 import InfiniteScroll from 'react-infinite-scroller';
 import Spinner from '../../common/Spinner';
 import DwarfItem from '../DwarfItem/DwarfItem';
@@ -25,9 +25,7 @@ const DwarfList = () => {
   useEffect(() => {
     resetdisplayedDwarfs();
     if (dwarves.length === 0) {
-      dispatch(loadDwarves()).catch((error) => {
-        alert('Loading dwarves failed' + error);
-      });
+      dispatch(getDwarves());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dwarves]);

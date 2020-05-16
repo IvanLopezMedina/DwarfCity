@@ -1,5 +1,5 @@
 export async function handleResponse(response) {
-  if (response.statusText === 'OK') return response.data;
+  if (response.statusText === 'OK') return response.data.Brastlewark;
   if (response.status === 400) {
     // So, a server-side validation error occurred.
     // Server side validation returns a string error message, so parse as text instead of json.

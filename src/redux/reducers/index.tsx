@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import dwarves from './dwarvesReducer';
+import dwarves from './loadDwarvesReducer';
 import searchedDwarves from './searchDwarvesReducer';
 import apiCallsInProgress from './apiStatusReducer';
 import isFilterOn from './toggleFilterReducer';
