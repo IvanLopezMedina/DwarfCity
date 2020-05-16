@@ -27,6 +27,9 @@ const useStyles = makeStyles({
   textCenter: {
     textAlign: 'center',
   },
+  gridHeight: {
+    height: '100%',
+  },
 });
 
 interface DwarfProps {
@@ -82,8 +85,8 @@ const DwarfCard: React.FC<DwarfProps> = ({dwarf}) => {
               </Typography>
             </Grid>
 
-            <Grid xs={12} key="professions" item>
-              <Paper>
+            <Grid xs={6} key="professions" item>
+              <Paper className={classes.gridHeight}>
                 <h3 className={classes.textCenter}>Professions</h3>
                 <Typography
                   variant="body2"
@@ -92,6 +95,20 @@ const DwarfCard: React.FC<DwarfProps> = ({dwarf}) => {
                 >
                   {dwarf.professions.map((profession, index) => (
                     <li key={index}>{profession}</li>
+                  ))}
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid xs={6} key="friends" item>
+              <Paper className={classes.gridHeight}>
+                <h3 className={classes.textCenter}>Friends</h3>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  component="ul"
+                >
+                  {dwarf.friends.map((friend, index) => (
+                    <li key={index}>{friend}</li>
                   ))}
                 </Typography>
               </Paper>
