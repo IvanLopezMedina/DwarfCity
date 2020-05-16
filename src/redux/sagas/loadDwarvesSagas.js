@@ -28,8 +28,8 @@ function* watchGetDwarves() {
   yield takeLatest(types.GET_DWARVES_SUCCESS, loadDwarves);
 }
 
-function* dwardSagas() {
+function* loadDwarvesSagas() {
   yield all([watchGetDwarves()]);
 }
 
-export default dwardSagas;
+export default loadDwarvesSagas;

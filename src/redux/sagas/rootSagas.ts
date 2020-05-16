@@ -1,6 +1,6 @@
 import {all} from 'redux-saga/effects';
-import dwarfSagas from './dwarfSagas';
+import loadDwarvesSagas from './loadDwarvesSagas';
 
 export default function* rootSaga() {
-  yield all([dwarfSagas()]);
+  yield all([loadDwarvesSagas()]);
 }
